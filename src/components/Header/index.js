@@ -10,7 +10,7 @@ const Header = () => {
   useEffect(() => 
   async function fetchResponce() {
     await axios.get('https://api.exchangerate.host/latest?base=USD&symbols=UAH')
-    .then(res => setCurrencyUSD(Number(Object.values(res.data.rates)).toFixed(2)))
+    .then(({data}) => setCurrencyUSD(Number(Object.values(data.rates)).toFixed(2)))
   },
   []);
 
@@ -19,7 +19,7 @@ const Header = () => {
       async function fetchResponce() {
         await axios
           .get('https://api.exchangerate.host/latest?base=EUR&symbols=UAH')
-          .then(res => setCurrencyEUR(Number(Object.values(res.data.rates)).toFixed(2)))
+          .then(({data}) => setCurrencyEUR(Number(Object.values(data.rates)).toFixed(2)))
       },
     []);
 

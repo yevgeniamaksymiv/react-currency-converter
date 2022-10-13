@@ -1,44 +1,36 @@
 import { TextField, Select, MenuItem } from '@mui/material';
-import { useState } from 'react';
-// import { createStyles } from '@mui/styles';
 
-// const useStyles = createStyles({
-//   select: {
-//     "&:after": {
-//       borderColor: "pink",
-//     },
-//     "& .MuiSvgIcon-root": {
-//       color: "pink",
-//     },
-//   },
-// });
-
-const CurrencyInput = () => {
-  const [currency, setCurrency] = useState('');
-  const handleChange = (event) => {
-    setCurrency(event.target.value);
-  };
+const CurrencyInput = ({ currencies, selectedCurrency, currencyOnChange }) => {
   
-  // const classes = useStyles();
-
   return (
     <>
       <TextField
         id="outlined-basic"
         variant="outlined"
-        sx={{ marginRight: 2 }}
+        sx={{ marginRight: 2, color: 'pink', border: '.5px solid pink' }}
       />
       <Select
         labelId="select-label"
         id="select-label"
-        value={currency}
+        value={selectedCurrency}
         label="Currency"
-        onChange={handleChange}
-        // className={classes.select}
+        onChange={currencyOnChange}
+        sx={{
+          color: 'pink',
+          border: '.5px solid pink',
+          '& .MuiSvgIcon-root': {
+            color: 'pink',
+          },
+          '.MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.Mui-focused': {
+            border: 'none',
+          },
+        }}
       >
-        <MenuItem value={'UAH'}>UAH</MenuItem>
-        <MenuItem value={'USD'}>USD</MenuItem>
-        <MenuItem value={'EUR'}>EUR</MenuItem>
+        {currencies.map((item) => (
+          <MenuItem key={item} value={item}>
+            {item}
+          </MenuItem>
+        ))}
       </Select>
     </>
   );
