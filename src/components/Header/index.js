@@ -6,28 +6,21 @@ const Header = () => {
   const [currencyUSD, setCurrencyUSD] = useState();
   const [currencyEUR, setCurrencyEUR] = useState();
 
-  useEffect(
-    () => {
-        axios
-          .get('https://api.exchangerate.host/latest?base=USD&symbols=UAH')
-          .then(({ data }) =>
-            setCurrencyUSD(Number(Object.values(data.rates)).toFixed(2))
-          );
-      },
-    []
-  );
+  useEffect(() => {
+    axios
+      .get('https://api.exchangerate.host/latest?base=USD&symbols=UAH')
+      .then(({ data }) =>
+        setCurrencyUSD(Number(Object.values(data.rates)).toFixed(2))
+      );
+  }, []);
 
-  useEffect(
-    () =>
-      async function fetchResponce() {
-        await axios
-          .get('https://api.exchangerate.host/latest?base=EUR&symbols=UAH')
-          .then(({ data }) =>
-            setCurrencyEUR(Number(Object.values(data.rates)).toFixed(2))
-          );
-      },
-    []
-  );
+  useEffect(() => {
+    axios
+      .get('https://api.exchangerate.host/latest?base=EUR&symbols=UAH')
+      .then(({ data }) =>
+        setCurrencyEUR(Number(Object.values(data.rates)).toFixed(2))
+      );
+  }, []);
 
   return (
     <Box sx={{ flexGrow: 1 }}>
