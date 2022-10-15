@@ -1,28 +1,37 @@
 import { TextField, Select, MenuItem } from '@mui/material';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-const CurrencyInput = ({ currencies, selectedCurrency, currencyOnChange }) => {
-  
+const theme = createTheme({
+  palette: {
+    light: {
+      main: '#9ebaf3',
+    },
+  },
+});
+
+const CurrencyInput = ({ currencies, selectedCurrency, currencyOnChange, amount, onChangeAmount }) => {
+
   return (
-    <>
+    <ThemeProvider theme={theme}>
       <TextField
+        color="light"
         id="outlined-basic"
         variant="outlined"
-        sx={{ marginRight: 2, color: 'pink', border: '.5px solid pink' }}
+        sx={{ marginRight: 2, input: { color: '#353a5f' } }}
+        value={amount}
+        onChange={onChangeAmount}
       />
       <Select
+        color="light"
         labelId="select-label"
         id="select-label"
         value={selectedCurrency}
         label="Currency"
         onChange={currencyOnChange}
         sx={{
-          color: 'pink',
-          border: '.5px solid pink',
+          color: '#9ebaf3',
           '& .MuiSvgIcon-root': {
-            color: 'pink',
-          },
-          '.MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.Mui-focused': {
-            border: 'none',
+            color: '#9ebaf3',
           },
         }}
       >
@@ -32,8 +41,8 @@ const CurrencyInput = ({ currencies, selectedCurrency, currencyOnChange }) => {
           </MenuItem>
         ))}
       </Select>
-    </>
+    </ThemeProvider>
   );
-}
+};
 
-export default CurrencyInput
+export default CurrencyInput;

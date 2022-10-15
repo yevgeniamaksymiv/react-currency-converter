@@ -1,4 +1,3 @@
-import { grey } from '@mui/material/colors';
 import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
 import { Box } from '@mui/material';
 import { useState, useEffect } from 'react';
@@ -6,51 +5,83 @@ import CurrencyInput from '../CurrencyInput';
 import axios from 'axios';
 
 const style = {
-  backgroundColor: grey[800],
+  background: 'linear-gradient(#353a5f, #9ebaf3)',
   height: 'calc(100vh - 64px)',
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
-  textAlign: 'center'
-}
+  textAlign: 'center',
+};
 
 const ConverterSection = () => {
   const [currencies, setCurrencies] = useState([]);
   const [fromCurrency, setFromCurrency] = useState('');
   const [toCurrency, setToCurrency] = useState('');
+  const [amount, setAmount] = useState(1);
+  const [amountFromCurrency, setAmountFromCurrency] = useState(true);
+  const [changeRate, setChangeRate] = useState('');
 
-  useEffect(
-    () =>
-      async() => {
-        await axios
-          .get('https://api.exchangerate.host/latest?base=UAH&symbols=USD,EUR')
-          .then(({data}) => {
-            setCurrencies([data.base, ...Object.keys(data.rates)])
-            setFromCurrency(data.base);
-            setToCurrency(Object.keys(data.rates)[0]);
-          }
-          );
-      },
-    []
-  );
-  
+  let toAmount, fromAmount;
+  if (amountFromCurrency) {
+    fromAmount = amount;
+    toAmount = (amount * changeRate).toFixed(2);
+  } else {
+    toAmount = amount;
+    fromAmount = (amount / changeRate).toFixed(2);
+  }
+
+  useEffect(() => {
+    axios
+      .get('https://api.exchangerate.host/latest?base=UAH&symbols=USD,EUR')
+      .then(({ data }) => {
+        const firstCurrency = Object.keys(data.rates)[0];
+        setCurrencies([data.base, ...Object.keys(data.rates)]);
+        setFromCurrency(data.base);
+        setToCurrency(firstCurrency);
+        setChangeRate(data.rates[firstCurrency]);
+      });
+  }, []);
+
+  useEffect(() => {
+    if (fromCurrency && toCurrency) {
+      axios
+        .get(
+          `https://api.exchangerate.host/latest?base=${fromCurrency}&symbols=${toCurrency}`
+        )
+        .then(({ data }) => setChangeRate(data.rates[toCurrency]));
+    }
+  }, [fromCurrency, toCurrency]);
+
+  const handleFromAmountChange = (e) => {
+    setAmount(e.target.value);
+    setAmountFromCurrency(true);
+  };
+  const handleToAmountChange = (e) => {
+    setAmount(e.target.value);
+    setAmountFromCurrency(false);
+  };
+
   return (
     <Box sx={style}>
-      <CurrencyInput 
-        currencies={currencies} 
+      <CurrencyInput
+        currencies={currencies}
         selectedCurrency={fromCurrency}
-        currencyOnChange={e => setFromCurrency(e.target.value)} 
-        />
+        currencyOnChange={(e) => setFromCurrency(e.target.value)}
+        amount={fromAmount}
+        onChangeAmount={handleFromAmountChange}
+      />
       <Box mx={4}>
-        <CompareArrowsIcon sx={{ color: 'pink' }} />
+        <CompareArrowsIcon sx={{ color: '#9ebaf3' }} />
       </Box>
-      <CurrencyInput 
+      <CurrencyInput
         currencies={currencies}
         selectedCurrency={toCurrency}
-        currencyOnChange={e => setToCurrency(e.target.value)} 
+        currencyOnChange={(e) => setToCurrency(e.target.value)}
+        amount={toAmount}
+        onChangeAmount={handleToAmountChange}
       />
     </Box>
   );
-}
+};
 
-export default ConverterSection
+export default ConverterSection;
