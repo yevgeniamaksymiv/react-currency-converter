@@ -9,7 +9,7 @@ const theme = createTheme({
   },
 });
 
-const CurrencyInput = ({ currencies, selectedCurrency, currencyOnChange, amount, onChangeAmount }) => {
+const CurrencyInput = ({ currencies, selectedCurrency, onChangeCurrency, amount, onChangeAmount }) => {
 
   return (
     <ThemeProvider theme={theme}>
@@ -27,7 +27,7 @@ const CurrencyInput = ({ currencies, selectedCurrency, currencyOnChange, amount,
         id="select-label"
         value={selectedCurrency}
         label="Currency"
-        onChange={currencyOnChange}
+        onChange={onChangeCurrency}
         sx={{
           color: '#9ebaf3',
           '& .MuiSvgIcon-root': {

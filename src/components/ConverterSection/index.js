@@ -66,7 +66,7 @@ const ConverterSection = () => {
       <CurrencyInput
         currencies={currencies}
         selectedCurrency={fromCurrency}
-        currencyOnChange={(e) => setFromCurrency(e.target.value)}
+        onChangeCurrency={(e) => setFromCurrency(e.target.value)}
         amount={fromAmount}
         onChangeAmount={handleFromAmountChange}
       />
@@ -76,7 +76,7 @@ const ConverterSection = () => {
       <CurrencyInput
         currencies={currencies}
         selectedCurrency={toCurrency}
-        currencyOnChange={(e) => setToCurrency(e.target.value)}
+        onChangeCurrency={(e) => setToCurrency(e.target.value)}
         amount={toAmount}
         onChangeAmount={handleToAmountChange}
       />
