@@ -1,4 +1,4 @@
-import { AppBar, Box, Toolbar, Typography } from '@mui/material';
+import { AppBar, Box, Toolbar, Typography, Divider } from '@mui/material';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 
@@ -27,7 +27,7 @@ const Header = () => {
       <AppBar
         sx={{
           position: 'static',
-          backgroundColor: '#353a5f',
+          backgroundColor: '#121212',
           textAlign: 'center',
         }}
       >
@@ -35,21 +35,33 @@ const Header = () => {
           <Typography
             variant="h5"
             component="div"
-            sx={{ flexGrow: 2, textAlign: 'end', color: '#9ebaf3' }}
+            sx={{
+              flexGrow: 2,
+              textAlign: 'end',
+              color: 'rgba(255, 255, 255, .87)',
+            }}
           >
             Current rate for today:
           </Typography>
-          <Typography component="div" sx={{ flexGrow: 1, color: '#9ebaf3' }}>
+          <Typography
+            component="div"
+            sx={{ flexGrow: 1, color: 'rgba(255, 255, 255, .6)' }}
+          >
             1 USD = {currencyUSD} UAH
           </Typography>
           <Typography
             component="div"
-            sx={{ flexGrow: 2, color: '#9ebaf3', textAlign: 'start' }}
+            sx={{
+              flexGrow: 2,
+              color: 'rgba(255, 255, 255, .6)',
+              textAlign: 'start',
+            }}
           >
             1 EUR = {currencyEUR} UAH
           </Typography>
         </Toolbar>
       </AppBar>
+      <Divider />
     </Box>
   );
 };

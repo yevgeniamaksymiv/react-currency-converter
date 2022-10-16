@@ -1,17 +1,25 @@
 import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
 import { Box } from '@mui/material';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useState, useEffect } from 'react';
 import CurrencyInput from '../CurrencyInput';
 import axios from 'axios';
 
 const style = {
-  background: 'linear-gradient(#353a5f, #9ebaf3)',
-  height: 'calc(100vh - 64px)',
+  backgroundColor: '#121212',
+  height: 'calc(100vh - 65px)',
+  width: '100vw',
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
   textAlign: 'center',
 };
+
+const theme = createTheme({
+  palette: {
+    mode: 'dark',
+  },
+});
 
 const ConverterSection = () => {
   const [currencies, setCurrencies] = useState([]);
@@ -62,25 +70,27 @@ const ConverterSection = () => {
   };
 
   return (
-    <Box sx={style}>
-      <CurrencyInput
-        currencies={currencies}
-        selectedCurrency={fromCurrency}
-        onChangeCurrency={(e) => setFromCurrency(e.target.value)}
-        amount={fromAmount}
-        onChangeAmount={handleFromAmountChange}
-      />
-      <Box mx={4}>
-        <CompareArrowsIcon sx={{ color: '#9ebaf3' }} />
+    <ThemeProvider theme={theme}>
+      <Box sx={style}>
+        <CurrencyInput
+          currencies={currencies}
+          selectedCurrency={fromCurrency}
+          onChangeCurrency={(e) => setFromCurrency(e.target.value)}
+          amount={fromAmount}
+          onChangeAmount={handleFromAmountChange}
+        />
+        <Box mx={4}>
+          <CompareArrowsIcon sx={{ color: 'rgba(255, 255, 255, .6)' }} />
+        </Box>
+        <CurrencyInput
+          currencies={currencies}
+          selectedCurrency={toCurrency}
+          onChangeCurrency={(e) => setToCurrency(e.target.value)}
+          amount={toAmount}
+          onChangeAmount={handleToAmountChange}
+        />
       </Box>
-      <CurrencyInput
-        currencies={currencies}
-        selectedCurrency={toCurrency}
-        onChangeCurrency={(e) => setToCurrency(e.target.value)}
-        amount={toAmount}
-        onChangeAmount={handleToAmountChange}
-      />
-    </Box>
+    </ThemeProvider>
   );
 };
 
